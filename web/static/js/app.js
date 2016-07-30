@@ -27,6 +27,11 @@ import Two from "twojs-browserify"
 const WATER_COLOR = '#3949AB';
 let water, two, circles, circleCount;
 
+let DROPLET_SPEEDS = {
+  dx: 1,
+  dy: 2
+}
+
 let speed = 0.2;
 let circleWidth = 80;
 
@@ -57,7 +62,6 @@ function makeFish(two, x, y, width, direction) {
   line.fill = 'red'
   let circle = two.makeCircle(midThird, midY, width / 4);
   circle.linewidth = 5;
-
   return line;
 }
 
@@ -90,8 +94,8 @@ circleCount = (two.width / circleWidth) + 2;
 circles = [];
 for(var i = -1; i < circleCount; i++) {
   let circle = two.makeCircle(i * circleWidth, 100, circleWidth);
-  circle.fill = '#ffffff';
-  circle.stroke = '#ffffff';
+  circle.fill = '#2b2b2b';
+  circle.stroke = '#2b2b2b';
   circles.push(circle);
 }
 
@@ -104,10 +108,12 @@ let fish = makeFish(two, 100, 100, 100, 'left');
 
 let maxWidth = circleCount * circleWidth;
 
+
 two.bind('update', function(frameCount) {
   circles.translation.x += speed;
   circles.translation.x %= circleWidth;
 }).play();
 
-document.two = two;
-
+particlesJS.load('particles', 'particles.json', function() {
+  console.log('callback - particles.js config loaded');
+});
