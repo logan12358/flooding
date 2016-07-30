@@ -21,23 +21,66 @@ import "phoenix_html"
 import $ from "jquery"
 import socket from "./socket"
 import _ from "underscore"
-import Snap from "snapsvg"
 
-//import Two from "two.js"
+import Two from "twojs-browserify"
+
+const WATER_COLOR = '#283593';
+let water, two, circles, circleCount;
+
+let speed = 0.2;
+let circleWidth = 80;
+
+function setHeights(depth) {
+  var height = (depth - 11) / (14 - 11);
+  let newHeight = (1 - height) * two.height;
+  water.translation.y = newHeight + two.height / 2;
+  circles.translation.y = newHeight - circleWidth * 2;
+}
 
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
 let channel = socket.channel("data", {})
-let water = $("#water");
-let depth = $("#depth");
+// let water = $("#water");
+// let depth = $("#depth");
 
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+  .receive("error", resp => { console.log("Unable to join", resp) });
 
 channel.on("update", payload => {
-  var height = ((payload.depth-11)/(14-11)*100+"%");
-  depth.html(payload.depth);
-  water.css("height", height);
-})
+  setHeights(payload.depth);
+});
+
+var elem = document.getElementById('canvas');
+two = new Two({ fullscreen: true }).appendTo(elem);
+
+let centreX = two.width / 2;
+let centreY = two.height / 2;
+water = two.makeRectangle(centreX, centreY + 50, two.width, two.height);
+water.fill = WATER_COLOR;
+water.stroke = WATER_COLOR;
+
+circleCount = (two.width / circleWidth) + 2;
+
+circles = [];
+for(var i = -1; i < circleCount; i++) {
+  let circle = two.makeCircle(i * circleWidth, 100, circleWidth);
+  circle.fill = '#ffffff';
+  circle.stroke = '#ffffff';
+  circles.push(circle);
+}
+
+circles = two.makeGroup(circles);
+
+setHeights(12);
+
+
+let maxWidth = circleCount * circleWidth;
+
+two.bind('update', function(frameCount) {
+  circles.translation.x += speed;
+  circles.translation.x %= circleWidth;
+}).play();
+
+document.two = two;
