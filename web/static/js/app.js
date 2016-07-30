@@ -24,7 +24,7 @@ import _ from "underscore"
 
 import Two from "twojs-browserify"
 
-const WATER_COLOR = '#283593';
+const WATER_COLOR = '#3949AB';
 let water, two, circles, circleCount;
 
 let speed = 0.2;
@@ -32,9 +32,33 @@ let circleWidth = 80;
 
 function setHeights(depth) {
   var height = (depth - 11) / (14 - 11);
+  speed = height;
   let newHeight = (1 - height) * two.height;
   water.translation.y = newHeight + two.height / 2;
   circles.translation.y = newHeight - circleWidth * 2;
+}
+
+function makeFish(two, x, y, width, direction) {
+  let firstThird = x + width / 3;
+  let midThird = x + (2 * width / 3);
+  let endThird = x + width;
+  let midY = y + width / 4;
+  let bottom = y + width / 2;
+  let line = two.makePolygon(
+      midThird, y,
+      firstThird, midY,
+      x, y,
+      x, bottom,
+      firstThird, midY,
+      midThird, bottom,
+      true
+  );
+
+  line.fill = 'red'
+  let circle = two.makeCircle(midThird, midY, width / 4);
+  circle.linewidth = 5;
+
+  return line;
 }
 
 socket.connect()
@@ -75,6 +99,8 @@ circles = two.makeGroup(circles);
 
 setHeights(12);
 
+let fish = makeFish(two, 100, 100, 100, 'left');
+
 
 let maxWidth = circleCount * circleWidth;
 
@@ -84,3 +110,4 @@ two.bind('update', function(frameCount) {
 }).play();
 
 document.two = two;
+
