@@ -1,7 +1,6 @@
 // Brunch automatically concatenates all files in your
 // watched paths. Those paths can be configured at
-// config.paths.watched in "brunch-config.js".
-//
+// config.paths.watched in "brunch-config.js".  //
 // However, those files will only be executed if
 // explicitly imported. The only exception are files
 // in vendor, which are never wrapped in imports and
@@ -19,3 +18,26 @@ import "phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+import $ from "jquery"
+import socket from "./socket"
+import _ from "underscore"
+import Snap from "snapsvg"
+
+//import Two from "two.js"
+
+socket.connect()
+
+// Now that you are connected, you can join channels with a topic:
+let channel = socket.channel("data", {})
+let water = $("#water");
+let depth = $("#depth");
+
+channel.join()
+  .receive("ok", resp => { console.log("Joined successfully", resp) })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+
+channel.on("update", payload => {
+  var height = ((payload.depth-11)/(14-11)*100+"%");
+  depth.html(payload.depth);
+  water.css("height", height);
+})

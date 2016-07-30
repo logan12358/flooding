@@ -2,7 +2,7 @@ defmodule Flooding.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", Flooding.RoomChannel
+  channel "data", Flooding.DataChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
