@@ -1,0 +1,27 @@
+<OGRVRTDataSource>
+  <OGRVRTLayer name="contours-christchurch-2011">
+    <SrcDataSource relativeToVRT="1">contours-christchurch-2011.csv</SrcDataSource>
+    <GeometryType>wkbLineString</GeometryType>
+    <LayerSRS>EPSG:2193</LayerSRS>
+    <GeometryField encoding="WKT" field="WKT" reportSrcColumn="FALSE" />
+    <Field name="ELEVATION" src="ELEVATION" type="Real" />
+    <Field name="SURVEY_NAME" src="SURVEY_NAME" type="String" />
+    <Field name="DATE_FLOWN" src="DATE_FLOWN" type="DateTime" />
+    <Field name="ALTITUDE" src="ALTITUDE" type="String" />
+    <Field name="COORD_SYSTEM_XY" src="COORD_SYSTEM_XY" type="String" />
+    <Field name="COORD_SYSTEM_Z" src="COORD_SYSTEM_Z" type="String" />
+    <Field name="ACCURACY_XY" src="ACCURACY_XY" type="String" />
+    <Field name="ACCURACY_Z" src="ACCURACY_Z" type="String" />
+    <Field name="OWNER" src="OWNER" type="String" />
+    <Field name="LICENSE" src="LICENSE" type="String" />
+    <Field name="SOURCECODE" src="SOURCECODE" type="String" />
+    <Field name="QARCODE" src="QARCODE" type="Integer" />
+    <Field name="CREATEDBY" src="CREATEDBY" type="String" />
+    <Field name="CREATEDDATE" src="CREATEDDATE" type="DateTime" />
+    <Field name="MODIFIEDBY" src="MODIFIEDBY" type="String" />
+    <Field name="MODIFIEDDATE" src="MODIFIEDDATE" type="DateTime" />
+    <Field name="YEAR" src="YEAR" type="String" />
+    <Field name="LICENSE_DESCRIPTION" src="LICENSE_DESCRIPTION" type="String" />
+    <Field name="Shape_Length" src="Shape_Length" type="Real" />
+  </OGRVRTLayer>
+</OGRVRTDataSource>
